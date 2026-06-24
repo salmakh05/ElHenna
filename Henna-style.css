@@ -1,0 +1,498 @@
+:root{
+  --ivory:#F9F2E4;
+  --cream:#EFE3CB;
+  --parchment:#E5D5B0;
+  --gold:#C8941A;
+  --gold-deep:#96700E;
+  --gold-light:#EAC96E;
+  --gold-shine:#F6E2A8;
+  --maroon:#5C0F1A;
+  --maroon-mid:#8B1E3F;
+  --maroon-soft:#B84060;
+  --ink:#3A2415;
+  --ink-soft:#6B4E35;
+  --shadow:rgba(60,20,10,.22);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background-color:var(--ivory);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(200,148,26,.13), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(92,15,26,.06), transparent 50%);
+  color:var(--ink);
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ── Splash screen ───────────────────────────────────────────── */
+#splash{
+  position:fixed; inset:0; z-index:999;
+  background:linear-gradient(160deg, var(--maroon) 0%, #2A060F 100%);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:opacity .8s ease, visibility .8s ease;
+}
+#splash.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+.splash-inner{ text-align:center; user-select:none; }
+.splash-arabic{
+  font-family:'Aref Ruqaa',serif; font-size:22px;
+  color:var(--gold-light); letter-spacing:2px; margin-bottom:6px;
+  animation:splash-glow 2.5s ease-in-out infinite;
+}
+.splash-name{
+  font-family:'Alex Brush',cursive;
+  font-size:clamp(70px,18vw,110px);
+  color:var(--gold-light);
+  line-height:1;
+  text-shadow:0 0 40px rgba(234,201,110,.45), 0 0 80px rgba(234,201,110,.2);
+  animation:splash-glow 2.5s ease-in-out infinite;
+}
+.splash-coins{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin:20px 0;
+}
+.splash-coins span{
+  display:block; width:16px; height:16px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold));
+  box-shadow:0 0 8px rgba(234,201,110,.5);
+  animation:coin-shine 1.8s ease-in-out infinite;
+}
+.splash-coins span:nth-child(2){ animation-delay:.15s }
+.splash-coins span:nth-child(3){ animation-delay:.30s }
+.splash-coins span:nth-child(4){ animation-delay:.45s }
+.splash-coins span:nth-child(5){ animation-delay:.60s }
+.splash-cta{
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:14px; letter-spacing:3px;
+  color:rgba(234,201,110,.7);
+  margin-top:6px;
+  animation:splash-pulse 2s ease-in-out infinite;
+}
+@keyframes splash-glow{
+  0%,100%{ text-shadow:0 0 30px rgba(234,201,110,.35), 0 0 60px rgba(234,201,110,.15); }
+  50%{ text-shadow:0 0 50px rgba(234,201,110,.6), 0 0 100px rgba(234,201,110,.25); }
+}
+@keyframes coin-shine{
+  0%,100%{ box-shadow:0 0 6px rgba(234,201,110,.4); transform:scale(1); }
+  50%{ box-shadow:0 0 14px rgba(234,201,110,.8); transform:scale(1.15); }
+}
+@keyframes splash-pulse{
+  0%,100%{ opacity:.6; }
+  50%{ opacity:1; }
+}
+
+/* ── Arabesque background SVG ────────────────────────────────── */
+#bg-arabesque{
+  position:fixed;
+  inset:0;
+  width:100vw; height:100vh;
+  pointer-events:none;
+  z-index:0;
+}
+#bg-arabesque path{ fill:rgba(175,126,18,.07); stroke:rgba(175,126,18,.20); stroke-width:.9; }
+#bg-arabesque circle{ fill:rgba(175,126,18,.20); stroke:none; }
+
+/* ── Particles ───────────────────────────────────────────────── */
+#particles{ position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.particle{
+  position:absolute; bottom:-10px;
+  border-radius:50%; opacity:0; animation:float-up linear infinite;
+}
+.particle.gold{ background:radial-gradient(circle,var(--gold-light),transparent 70%); width:5px; height:5px; }
+.particle.red{  background:radial-gradient(circle,var(--maroon-soft),transparent 70%); width:4px; height:4px; }
+@keyframes float-up{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  10%{opacity:.75} 90%{opacity:.3}
+  100%{transform:translateY(-110vh) translateX(var(--drift,20px));opacity:0}
+}
+
+/* ── Tunisian SVG motifs ─────────────────────────────────────── */
+#henna-geo path, #henna-geo polygon{ fill:none; }
+#henna-geo circle { fill:none; }
+#moorish-arch *{ fill:none; }
+#coin circle{ fill:none; }
+#jasmine circle{ fill:var(--gold-light); stroke:none; }
+#jasmine .jasmine-center{ fill:var(--maroon-mid); }
+#khomsa *{ fill:none; }
+
+/* corner star ornaments */
+.corner-motif{
+  position:absolute; width:120px; height:120px;
+  z-index:2; pointer-events:none; opacity:.55;
+}
+.corner-tl{ top:16px; left:10px; }
+.corner-tr{ top:16px; right:10px; transform:scaleX(-1); }
+.corner-bl{ bottom:16px; left:10px; transform:scaleY(-1); }
+.corner-br{ bottom:16px; right:10px; transform:scale(-1,-1); }
+.corner-motif use{ fill:none; stroke:var(--gold); stroke-width:1.8; }
+
+/* ── Hero layout ─────────────────────────────────────────────── */
+.hero{
+  position:relative; z-index:2;
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  padding:80px 28px 100px;
+  text-align:center;
+  overflow:hidden;
+}
+
+@keyframes reveal{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.eyebrow{
+  font-family:'Playfair Display',serif;
+  font-style:italic; font-weight:400;
+  letter-spacing:3.5px; text-transform:uppercase;
+  font-size:12.5px; color:var(--gold-deep);
+  opacity:0; animation:reveal .9s ease forwards .1s;
+  position:relative; z-index:2;
+}
+
+.event-word{
+  font-family:'Alex Brush',cursive;
+  font-size:clamp(44px,8.5vw,68px);
+  color:var(--maroon);
+  opacity:0; animation:reveal .9s ease forwards .25s;
+  position:relative; z-index:2;
+  margin-bottom:-4px;
+}
+.event-word::after{
+  content:"";
+  display:block;
+  width:90px; height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--maroon-mid),var(--gold),transparent);
+  margin:8px auto 0;
+}
+
+.event-arabic{
+  font-family:'Aref Ruqaa',serif;
+  font-size:17px; color:var(--maroon-mid);
+  letter-spacing:.5px;
+  opacity:0; animation:reveal .9s ease forwards .32s;
+  position:relative; z-index:2;
+  margin-bottom:4px;
+}
+
+/* Name with gold shimmer */
+.names{
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; animation:reveal 1s ease forwards .42s;
+}
+.names .name{
+  font-family:'Alex Brush',cursive;
+  font-size:clamp(74px,14.5vw,130px);
+  color:var(--gold-deep);
+  line-height:1.05;
+  position:relative; z-index:2;
+  text-shadow:
+    0 0 30px rgba(200,148,26,.30),
+    0 0 60px rgba(200,148,26,.12),
+    0 2px 4px rgba(60,20,10,.15);
+}
+
+/* spinning henna-geo rosette behind name */
+.mandala{
+  position:absolute;
+  top:50%; left:50%;
+  width:290px; height:290px;
+  transform:translate(-50%,-50%);
+  z-index:0; pointer-events:none;
+}
+.mandala-group{ transform-origin:145px 145px; animation:slow-rotate 120s linear infinite; }
+.mandala-group use{ fill:none; stroke-width:1.2; opacity:.13; }
+.mandala-group use:nth-child(odd){ stroke:var(--gold); }
+.mandala-group use:nth-child(even){ stroke:var(--maroon-mid); }
+@keyframes slow-rotate{ to{ transform:rotate(360deg); } }
+
+.date-line{
+  margin-top:18px;
+  font-family:'Playfair Display',serif;
+  letter-spacing:5px; text-transform:uppercase; font-size:12.5px;
+  color:var(--ink-soft);
+  opacity:0; animation:reveal .9s ease forwards .6s;
+  position:relative; z-index:2;
+}
+.date-line::before,.date-line::after{
+  content:"";
+  display:inline-block; width:30px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold)); vertical-align:middle; margin:0 12px;
+}
+.date-line::after{ background:linear-gradient(270deg,transparent,var(--gold)); }
+
+/* ── Envelope ────────────────────────────────────────────────── */
+.envelope-wrap{
+  margin-top:52px;
+  display:flex; flex-direction:column; align-items:center;
+  opacity:0; animation:reveal 1s ease forwards .85s;
+  position:relative; z-index:2;
+}
+
+.envelope{ width:310px; height:200px; position:relative; cursor:pointer; perspective:1400px; }
+
+.envelope .shadow{
+  position:absolute; bottom:-24px; left:6%;
+  width:88%; height:24px;
+  background:radial-gradient(ellipse at center, rgba(92,15,26,.4), transparent 70%);
+  filter:blur(3px); z-index:0;
+  transition:opacity .6s, transform .6s;
+}
+.envelope.open .shadow{ opacity:.5; transform:scaleX(.88) }
+
+/* Deep maroon velvet envelope body */
+.envelope .back{
+  position:absolute; inset:0;
+  background:linear-gradient(145deg, #7A1826, #4A0E15);
+  border-radius:6px;
+  border:1px solid rgba(200,148,26,.3);
+  box-shadow:0 20px 45px rgba(60,10,20,.35), inset 0 1px 0 rgba(200,148,26,.15);
+  z-index:1;
+}
+.paper-peek{
+  position:absolute; left:50%; top:68px; width:68%; height:16px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--ivory),var(--cream));
+  border-radius:3px 3px 0 0;
+  box-shadow:0 -2px 5px rgba(0,0,0,.12);
+  z-index:4;
+  transition:transform .7s ease .2s, opacity .5s ease .2s;
+}
+.envelope.open .paper-peek{ transform:translateX(-50%) translateY(-28px); opacity:0; }
+
+.envelope .body{
+  position:absolute; bottom:0; left:0;
+  width:100%; height:155px;
+  background:linear-gradient(160deg,#6A1422,#420B12);
+  border-radius:0 0 6px 6px; z-index:3;
+  /* Gold geometric Tunisian border on body */
+  border-top:1px solid rgba(200,148,26,.35);
+  overflow:hidden;
+}
+/* Gold chevron stitching on the velvet flap edges */
+.envelope .body::before{
+  content:"";
+  position:absolute; top:0; left:0; right:0; height:100%;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent, transparent 12px,
+      rgba(200,148,26,.08) 12px, rgba(200,148,26,.08) 13px);
+}
+.envelope .lid{
+  position:absolute; top:0; left:0;
+  width:100%; height:155px;
+  background:linear-gradient(170deg,#7E1C2A,#55101D);
+  clip-path:polygon(0 0,100% 0,50% 90%);
+  transform-origin:top;
+  transition:transform .9s cubic-bezier(.6,0,.3,1); z-index:5;
+  border-bottom:1px solid rgba(200,148,26,.25);
+}
+/* Gold geometric border along lid edges */
+.envelope .lid::before{
+  content:"";
+  position:absolute; top:0; left:0; right:0; bottom:10%;
+  background:
+    linear-gradient(to bottom right, rgba(200,148,26,.18), transparent 60%),
+    linear-gradient(to bottom left, rgba(200,148,26,.18), transparent 60%);
+}
+.envelope.open .lid{ transform:rotateX(178deg); }
+
+/* Red wax seal with gold initial */
+.seal{
+  position:absolute; left:50%; top:60%;
+  width:60px; height:60px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 32% 28%, var(--maroon-soft), var(--maroon-mid) 55%, var(--maroon) 100%);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 18px rgba(92,15,26,.55), inset 0 -4px 8px rgba(0,0,0,.25), inset 0 3px 6px rgba(255,255,255,.18);
+  transition:transform .5s ease, opacity .5s ease; z-index:6;
+}
+.seal::before{
+  content:"";
+  position:absolute; inset:5px;
+  border-radius:50%;
+  border:1.5px solid rgba(234,201,110,.7);
+}
+.seal::after{
+  content:"";
+  position:absolute; inset:9px;
+  border-radius:50%;
+  border:.8px solid rgba(234,201,110,.4);
+}
+.seal span{
+  font-family:'Alex Brush',cursive;
+  font-size:28px; color:var(--gold-shine); line-height:1;
+  text-shadow:0 1px 2px rgba(0,0,0,.35);
+  position:relative; z-index:1;
+}
+.envelope.open .seal{ transform:translate(-50%,-50%) scale(.35) rotate(38deg); opacity:0; }
+
+.hint{
+  margin-top:22px; font-size:12px;
+  letter-spacing:2px; color:var(--ink-soft); text-transform:uppercase;
+}
+
+/* ── Details section ─────────────────────────────────────────── */
+.details{
+  width:100%; max-width:660px;
+  opacity:0; max-height:0; overflow:hidden;
+  transition:opacity 1s ease, max-height 1.3s ease;
+  margin-top:0; position:relative; z-index:2;
+}
+.details.show{ opacity:1; max-height:3800px; margin-top:60px; }
+
+.invitation-card{
+  width:min(82vw, 300px);
+  margin:0 auto 50px;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 25px 55px rgba(60,20,10,.32);
+  opacity:0;
+  transform:translateY(26px) scale(.97);
+  transition:opacity .9s ease .15s, transform .9s cubic-bezier(.22,1,.36,1) .15s;
+}
+.details.show .invitation-card{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.invitation-card img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:14px;
+}
+
+/* ── Info cards ──────────────────────────────────────────────── */
+.cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.card{
+  background:rgba(249,242,228,.72);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(200,148,26,.3);
+  border-top:2px solid rgba(200,148,26,.5);
+  padding:24px 14px 22px; border-radius:3px;
+  box-shadow:0 14px 30px rgba(60,20,10,.09);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.card:hover{ transform:translateY(-5px); box-shadow:0 22px 40px rgba(60,20,10,.14); }
+.card-icon{
+  display:flex; justify-content:center; margin-bottom:10px;
+}
+.card-icon svg{
+  width:38px; height:38px;
+  filter:drop-shadow(0 2px 6px rgba(200,148,26,.35));
+}
+.card h3{
+  font-family:'Playfair Display',serif;
+  font-size:12px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--gold-deep); margin-bottom:8px; font-weight:600;
+}
+.card p{ font-size:14px; color:var(--ink); line-height:1.55; }
+.btn{
+  display:inline-block; margin-top:14px; padding:9px 18px;
+  background:linear-gradient(135deg,var(--maroon-mid),var(--maroon));
+  color:var(--gold-shine); text-decoration:none; border-radius:30px;
+  font-size:12px; letter-spacing:.5px;
+  border:1px solid rgba(200,148,26,.3);
+  box-shadow:0 8px 18px rgba(92,15,26,.30);
+  transition:transform .25s ease;
+}
+.btn:hover{ transform:translateY(-2px); }
+
+/* ── Countdown ───────────────────────────────────────────────── */
+.countdown-wrap{ margin-top:50px; }
+.countdown-label{
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:14px; color:var(--ink-soft); margin-bottom:18px;
+}
+.countdown{
+  display:flex; align-items:center; justify-content:center;
+  gap:12px; flex-wrap:wrap;
+}
+.cd-unit{
+  display:flex; flex-direction:column; align-items:center;
+  min-width:66px;
+  background:rgba(249,242,228,.6);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(200,148,26,.25);
+  border-top:2px solid rgba(200,148,26,.45);
+  border-radius:3px; padding:14px 8px 10px;
+}
+.cd-unit span{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,6vw,38px); font-weight:600;
+  color:var(--gold-deep); line-height:1;
+}
+.cd-unit small{
+  margin-top:6px; font-size:9.5px;
+  letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-soft);
+}
+.cd-sep{
+  font-size:20px; color:var(--gold);
+  opacity:.65; transform:translateY(-10px);
+}
+
+/* Nakkach chain row as footer decoration */
+.footer-nakkach{
+  display:flex; align-items:center; justify-content:center;
+  margin:48px 0 8px; gap:2px;
+}
+.fn-line{ height:1px; width:40px; background:linear-gradient(90deg,transparent,var(--gold)); }
+.fn-line.right{ background:linear-gradient(270deg,transparent,var(--gold)); }
+.fn-coin{ display:flex; align-items:center; gap:2px; }
+.fn-coin span{
+  display:block; width:14px; height:14px; border-radius:50%;
+  border:1.5px solid var(--gold);
+  background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold));
+  box-shadow:0 2px 5px rgba(92,15,26,.25);
+}
+.fn-chain{ width:8px; height:1px; background:var(--gold); opacity:.6; }
+
+.footer-note{
+  margin-top:6px; font-family:'Alex Brush',cursive; font-size:34px;
+  color:var(--maroon-mid);
+  display:flex; align-items:center; justify-content:center;
+  text-shadow:0 0 20px rgba(139,30,63,.15);
+}
+.jasmine-icon{ width:20px; height:20px; margin:0 9px; opacity:.9; }
+
+/* ── Floating music btn ──────────────────────────────────────── */
+.music-btn{
+  position:fixed; bottom:22px; right:22px;
+  width:50px; height:50px; border-radius:50%;
+  border:1px solid rgba(200,148,26,.5);
+  background:linear-gradient(145deg,rgba(249,242,228,.88),rgba(239,227,203,.75));
+  backdrop-filter:blur(8px);
+  box-shadow:0 10px 24px rgba(60,20,10,.2);
+  color:var(--maroon-mid); font-size:19px; cursor:pointer; z-index:50;
+  transition:transform .25s ease, opacity .25s ease;
+}
+.music-btn:hover{ transform:scale(1.06); }
+.music-btn.muted{ opacity:.5; }
+.music-icon{ display:inline-block; animation:pulse 1.6s ease-in-out infinite; }
+.music-btn.muted .music-icon{ animation:none; }
+@keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media(max-width:700px){
+  .cards{ grid-template-columns:1fr; }
+  .envelope{ width:260px; height:170px; }
+  .invitation-card{ width:90vw; padding:38px 18px 28px; }
+  .card-name{ font-size:48px; }
+  .names .name{ font-size:clamp(64px,16vw,100px); }
+  .countdown{ gap:6px; }
+  .cd-unit{ min-width:54px; padding:10px 6px 8px; }
+  .corner-motif{ width:90px; height:90px; }
+  .mandala{ width:230px; height:230px; }
+  .tile-border{ width:calc(100% + 36px); margin:0 -18px 20px; }
+  .tile-border.bottom{ margin:20px -18px 0; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
